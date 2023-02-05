@@ -10,7 +10,7 @@ bool is_prime(int num) {
  			if (num % i == 0) return false;
  		return true;
  	}
- }
+}
 int nearest_prime_number(int num) {
  	try {
  		if (num <= 1)
@@ -23,7 +23,7 @@ int nearest_prime_number(int num) {
  		}
  	}
  	catch (int number) {
- 		cout << "Не существует простых чисел, меньше или равных ";
+ 		cout << "There are no numbers <= ";
  		cout << number << endl;
  	}
 }
