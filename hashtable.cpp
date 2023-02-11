@@ -2,6 +2,7 @@
 #include<iostream>
 #include <vector>
 #include <list>
+#include <algorithm>
 #include "others.h"
 #include "hashtable.h"
 using namespace std;
@@ -41,7 +42,7 @@ int HashTable<K, V>::hash(const K& key) {
  	return key % nearest_prime_number(size_of_HT);
 }
 template<class K, class V>
-void HashTable<K, V>::insert(const K& key, const V& value) {
+V& HashTable<K, V>::insert(const K& key, const V& value) {
 	int pos = hash(key);
  	HT_Node<K, V> b(key, value);
 	slist<K, V>& ls = table.at(pos);
@@ -49,12 +50,13 @@ void HashTable<K, V>::insert(const K& key, const V& value) {
 		for(typename slist<K, V>::iterator it = ls.begin(); it != ls.end(); ++it){
 			if(it->key == key){
 				ls.push_front(b);
-				return;
+				return ls.front().value;
 			}
 		}
 	}
 	table[pos].push_front(b);
 	count++;
+	return ls.front().value;
 }
 template<class K, class V>
 bool HashTable<K, V>::search(const K& key) {
@@ -71,20 +73,29 @@ bool HashTable<K, V>::search(const K& key) {
 	return false;
 }
 template<class K, class V>
-const V HashTable<K, V>::operator[](int key){
+V& HashTable<K, V>::operator[](const K& key){
 	int pos = hash(key);
 	slist<K, V>& ls = table.at(pos);
-
-	if(ls.size() < 1){
+	/*if(ls.size() < 1){
 		return (V) 0;
-	}
-	for(typename slist<K, V>::iterator it = ls.begin() ; it != ls.end() ; ++it){
+	}*/
+	auto is_key = [&key](HT_Node<K, V> node){ return node.key == key; };
+	
+	/*for(typename slist<K, V>::iterator it = ls.begin() ; it != ls.end() ; ++it){
 		if(it->key == key){
 			return (it->value);
 		}
+	}*/
+	auto result = find_if(ls.begin(), ls.end(), is_key);
+
+	if(result == ls.end()) {
+		return insert(key, V());
 	}
-	insert(key, V());
-	return operator[](key);
+
+	return (result->value);
+	
+	//insert(key, V());
+	//return operator[](key);
 }
 
 template<class K, class V>

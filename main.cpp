@@ -9,5 +9,7 @@ int main() {
     hash_table.search(1);
     hash_table.remove(8);
     hash_table.remove(5);
+    hash_table[3] = 5;
+    cout << hash_table[3] << endl;
     return 0;
 }

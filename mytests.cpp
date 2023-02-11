@@ -11,7 +11,6 @@ TEST(hashtable, test1)
     hash_table.search(1);
     hash_table.remove(8);
     hash_table.remove(5);
-
     bool expected = true;
     bool actual = hash_table.search(4);
     GTEST_ASSERT_EQ(expected, actual);

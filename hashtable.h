@@ -23,8 +23,8 @@ public:
  	~HashTable();
 
 	int hash(const K& key);
-	const V operator[](int key);
- 	void insert(const K& key, const V& value);
+	V& operator[](const K& key);
+ 	V& insert(const K& key, const V& value);
  	bool search(const K& key);
 	void remove(const K& key);
 };
